@@ -1,4 +1,4 @@
-package ward.peter.olp_authentication.security;
+package ward.peter.olp_authentication;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

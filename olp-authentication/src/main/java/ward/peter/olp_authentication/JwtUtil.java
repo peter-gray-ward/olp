@@ -1,4 +1,4 @@
-package ward.peter.olp_authentication.util;
+package ward.peter.olp_authentication;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

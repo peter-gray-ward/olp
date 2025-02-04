@@ -27,7 +27,10 @@ public class JwtAuthFilter implements WebFilter {
 
     private static final String SECRET_KEY = "yourSuperSecretKeyForJWTValidation"; // Same key as the Auth Service
 
-    private static final List<String> PUBLIC_PATHS = List.of("/auth/login");
+    private static final List<String> PUBLIC_PATHS = List.of(
+        "/auth/login",
+        "/auth/register"
+    );
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
