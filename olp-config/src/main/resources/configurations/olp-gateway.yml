@@ -1,0 +1,22 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8222
+spring:
+  application:
+    name: olp-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: courses
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/courses/**
+        - id: authentication
+          uri: http://localhost:8080
+          predicates:
+            - Path=/auth/**
