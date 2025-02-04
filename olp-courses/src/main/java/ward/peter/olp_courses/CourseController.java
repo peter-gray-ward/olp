@@ -20,4 +20,9 @@ public class CourseController {
 	public ResponseEntity<List<Course>> findAllCourses() {
 		return ResponseEntity.ok(service.findAllCourses());
 	}
+
+	@PostMapping
+	public ResponseEntity<List<Course>> saveAllCourses(@RequestBody List<Course> courses) {
+		return ResponseEntity.ok(service.saveAllCourses(courses));
+	}
 }

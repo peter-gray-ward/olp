@@ -20,3 +20,9 @@ spring:
           uri: http://localhost:8080
           predicates:
             - Path=/auth/**
+resilience4j.ratelimiter:
+  instances:
+    coursesRateLimiter:
+      limitForPeriod: 5      # Max 5 requests
+      limitRefreshPeriod: 1s # Refresh every second
+      timeoutDuration: 0ms   # No waiting in queue
