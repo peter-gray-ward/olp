@@ -3,7 +3,7 @@ spring:
     name: olp-authentication
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/olp
+    url: jdbc:postgresql://olp-postgres:5432/olp
     username: peter
     password: enter123
   jpa:
@@ -22,3 +22,16 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 server:
   port: 8080
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+management: 
+  endpoints:
+    web:
+      exposure:
+        include: '*'

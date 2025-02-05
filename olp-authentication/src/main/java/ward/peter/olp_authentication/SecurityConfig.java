@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()) // Stateless authentication
                 .authorizeExchange(auth -> auth
                     .pathMatchers("/auth/**").permitAll()  // Allow public access to authentication endpoints
+                    .pathMatchers("/actuator/health").permitAll()
                     .anyExchange().authenticated()  // Secure all other routes
                 )
                 .addFilterAt(authenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION) // Add JWT authentication filter

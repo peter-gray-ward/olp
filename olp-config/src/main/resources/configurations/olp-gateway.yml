@@ -13,11 +13,11 @@ spring:
           enabled: true
       routes:
         - id: courses
-          uri: http://localhost:8090
+          uri: http://courses-service:8090
           predicates:
             - Path=/api/v1/courses/**
         - id: authentication
-          uri: http://localhost:8080
+          uri: http://auth-service:8080
           predicates:
             - Path=/auth/**
 resilience4j.ratelimiter:
@@ -26,3 +26,8 @@ resilience4j.ratelimiter:
       limitForPeriod: 5      # Max 5 requests
       limitRefreshPeriod: 1s # Refresh every second
       timeoutDuration: 0ms   # No waiting in queue
+management: 
+  endpoints:
+    web:
+      exposure:
+        include: '*'

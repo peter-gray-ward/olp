@@ -1,5 +1,5 @@
-Requires a local PostgreSQL server and a docker instance of Redis, installed via
+To run on linux or Mac OS X:
 
 ```bash
-docker run --name redis-container -p 6379:6379 -d redis
+source build-and-run.sh
 ```

@@ -1,0 +1,145 @@
+networks:
+  olp-network: # Define a dedicated network
+    driver: bridge
+
+volumes:
+  postgres_data: # Volume for PostgreSQL persistence
+    driver: local
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - olp-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:latest
+    container_name: olp-postgres
+    environment:
+      POSTGRES_DB: olp
+      POSTGRES_USER: peter
+      POSTGRES_PASSWORD: enter123
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - olp-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U peter -d olp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  olp-config:
+    build: ./olp-config
+    container_name: olp-config
+    ports:
+      - "8888:8888"
+    restart: always
+    networks:
+      - olp-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://olp-config:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  discovery:
+    build: ./olp-discovery
+    container_name: discovery
+    ports:
+      - "8761:8761"
+    restart: always
+    networks:
+      - olp-network
+    depends_on:
+      olp-config:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://discovery:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  olp-authentication:
+    build: ./olp-authentication
+    container_name: auth-service
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - olp-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      olp-config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://auth-service:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  olp-courses:
+    build: ./olp-courses
+    container_name: courses-service
+    ports:
+      - "8090:8090"
+    restart: always
+    networks:
+      - olp-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      olp-config:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
+      olp-authentication:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://courses-service:8090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  olp-gateway:
+    build: ./olp-gateway
+    container_name: api-gateway
+    ports:
+      - "8222:8222"
+    restart: always
+    networks:
+      - olp-network
+    depends_on:
+      olp-config:
+        condition: service_healthy
+      olp-authentication:
+        condition: service_healthy
+      olp-courses:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://api-gateway:8222/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

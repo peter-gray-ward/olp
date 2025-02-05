@@ -1,11 +1,11 @@
 eureka:
   instance:
-    hostname: localhost
+    hostname: discovery
   client:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discovery:8761/eureka/
 server:
   port: 8090
 spring:
@@ -13,7 +13,7 @@ spring:
     name: olp-courses
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/olp
+    url: jdbc:postgresql://olp-postgres:5432/olp
     username: peter
     password: enter123
   jpa:
@@ -28,10 +28,19 @@ spring:
         show_sql: true
     cache:
       type: redis
+  data:
+    redis:
+      host: redis-container
+      port: 6379
 redis:
-  host: localhost
+  host: redis-container
   port: 6379
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+management: 
+  endpoints:
+    web:
+      exposure:
+        include: '*'

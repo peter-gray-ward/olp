@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(auth -> auth
                     .pathMatchers("/auth/**").permitAll()  // Allow login and registration
+                    .pathMatchers("/actuator/health").permitAll()
                     .anyExchange().authenticated()         // Protect all other routes
                 )
                 .addFilterAt(jwtAuthFilter, SecurityWebFiltersOrder.AUTHENTICATION) // Add JWT filter

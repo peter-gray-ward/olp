@@ -2,4 +2,4 @@ spring:
   application:
     name: olp-gateway
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://olp-config:8888
