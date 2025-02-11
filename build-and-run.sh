@@ -6,7 +6,7 @@ echo "🚀 Building all microservices..."
 set -e
 
 # Define microservices
-MICROSERVICES=("olp-config" "olp-discovery" "olp-authentication" "olp-courses" "olp-gateway")
+MICROSERVICES=("olp-config" "olp-authentication" "olp-courses" "olp-gateway" "olp-notifications")
 
 # Loop through each microservice and build it
 for SERVICE in "${MICROSERVICES[@]}"; do

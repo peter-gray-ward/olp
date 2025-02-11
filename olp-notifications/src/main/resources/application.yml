@@ -1,5 +1,5 @@
 spring:
-	application:
-		name: olp-notifications
-	config:
-		import: optional:configserver:http://olp-config:8888
+  application:
+    name: olp-notifications
+  config:
+    import: optional:configserver:http://olp-config:8888

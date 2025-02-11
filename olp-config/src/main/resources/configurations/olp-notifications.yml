@@ -1,0 +1,14 @@
+server:
+  port: 9092
+spring:
+  kafka:
+    bootstrap-servers: notifications:9092
+    consumer:
+      group-id: notification-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+management: 
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -22,14 +22,6 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 server:
   port: 8080
-eureka:
-  instance:
-    hostname: discovery
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: http://discovery:8761/eureka/
 management: 
   endpoints:
     web:

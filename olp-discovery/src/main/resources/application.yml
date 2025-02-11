@@ -1,5 +1,0 @@
-spring:
-  application:
-    name: olp-discovery
-  config:
-    import: optional:configserver:http://olp-config:8888
